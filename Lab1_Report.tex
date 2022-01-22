@@ -1,0 +1,47 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                         % 
+% Zach Pfaff              %
+% ECE 351 Section         % 
+% Lab 1                   %
+% Due Jan 25              %
+%                         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{Lab 1 Summary}
+\author{Zachary Pfaff \\ github.com/ZachPfaff}
+\date{January 25, 2022}
+
+\begin{document}
+
+\maketitle
+
+\section{Becoming Familiar With Spider IDE}
+\hspace{\parindent}Spyder is a piece of software that utilizes python programming to allow for advanced data exploration and development. It was designed for engineers and members of the scientific community in mind. To begin using Spyder, it is best to be familiarized with some of the shortucts commonly used in the program, as well as some basic functions that will be used throughout this course.
+
+\section{Defining variables and matrices}
+\hspace{\parindent}Unlike C, variables do not need to be specified in Python and can be expressed by just setting them equal to a value. You can use the print() function to output the variable and what its equal to. When you want to attach multiple values to one variable you can use a list, which creates an array of values. Similar to list, you can use the function numpy.array to create an array not separated by commas. Packages can also be renamed to simplify future typing so an even faster way to do this is to rename package "numpy" to "np" and use the function np.array.\par
+\hspace{\parindent}It is best practice to start indexing arrays as it will be a big part of this lab throughout the semester. To do this, create a list of values you want to include in the array and then use the np.array function to set that list of values to a corresponding array. The print function can be used to display specific values in the array. Creating arrays with one value (such as an array of all zeros or ones) is possible by using the .zero or .one functions, which will be very useful in future labs.\par
+\hspace{\parindent}Spyder also allows for creating plots. This can be done using the matplotlib.pyplot package. Plot features such as step size, the number of steps, and the size of the plot for example are able to be specified. Like many other graphing calculators, the mathematical functions to each plot must be included. Finally, visual preferences can be modified such as figure size, font size, legends and color schemes.\par 
+\hspace{\parindent}Complex numbers can also be used in the program. In order to do this however, each complex number must include the imaginary part using j for the program to recognize that complex numbers are being used, otherwise errors could occur when the code is ran.\par
+
+\section{pep8 Coding Practices}
+\hspace{\parindent}When writing python code, it is important to organize it in such a way that is readable and consistent throughout the program. The pep8 standard was created for this reason and although it may seem intuitive when first learning, it will make readability of code much easier. Some of the more important practices to know are to use tabs only for if and else statements (otherwise use four spaces), use docstrings to define what a function does, wrap lines if they are too long, use regular comments to keep the reader updated with whats going on, and use spaces around operators and after commas. Specific detail for the pep8 standard can be found at https://pepe8.org/. \par   
+    
+\section{LATEX Commands}
+\hspace{\parindent}All reports written in this lab will be done using LATEX, a typesetting program used for professional mathematical writing. It allows for better implementation for mathematical expressions and figures, so its best to learn now in order to use it in the future. To start, each lab will have a heading that details the lab, then a template will be used to organize the report. LATEX commands are found on the lab Canvas page.
+
+\section{Questions}
+1. Which course are you most excited for in your degree? Which course have you enjoyed the most so far?
+\newline
+\newline
+Im most excited to take what i learned in ECE 210 and 212 and expand my understanding of power systems in my ECE 320 class with Dr. Hess
+\newline
+\newline
+2. Leave any feedback on the clarity of the expectations, instructions, and deliverables.
+\newline
+\newline
+Some confusion I ran into was how to traverse GitHub and upload files. It will take some time for me to use it fluently.
+\end{document}
