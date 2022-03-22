@@ -1,0 +1,195 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% DOCUMENT PREAMBLE %%%
+\documentclass[12pt]{report}
+\usepackage[english]{babel}
+%\usepackage{natbib}
+\usepackage{url}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\graphicspath{{images/}}
+\usepackage{parskip}
+\usepackage{fancyhdr}
+\usepackage{vmargin}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codeblue}{rgb}{0,0,0.95}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\lstdefinestyle{mystyle}{
+backgroundcolor=\color{backcolour},
+commentstyle=\color{codegreen},
+keywordstyle=\color{codeblue},
+numberstyle=\tiny\color{codegray},
+stringstyle=\color{codegreen},
+basicstyle=\ttfamily\footnotesize,
+breakatwhitespace=false,
+breaklines=true,
+captionpos=b,
+keepspaces=true,
+numbers=left,
+numbersep=5pt,
+showspaces=false,
+showstringspaces=false,
+showtabs=false,
+tabsize=2
+}
+\lstset{style=mystyle}
+\setmarginsrb{3 cm}{2.5 cm}{3 cm}{2.5 cm}{1 cm}{1.5 cm}{1 cm}{1.5 cm}
+\title{Fourier Series}
+% Title
+\author{Zachary Pfaff}
+% Author
+\date{March 22nd 2022}
+\makeatletter
+\let\thetitle\@title
+\let\theauthor\@author
+\let\thedate\@date
+\makeatother
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\theauthor}
+\lhead{\thetitle}
+\cfoot{\thepage}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%
+\begin{titlepage}
+\centering
+\vspace*{0.5 cm}
+% \includegraphics[scale = 0.075]{bsulogo.png}\\[1.0 cm] % 
+\includegraphics[width = 5 cm]{University Logo.png}\\
+\begin{center}    \textsc{\Large   ECE 351}\\[2.0 cm]
+\end{center}% University Name
+\textsc{\Large Signals and Systems  }\\[0.5 cm] % Course 
+Lab 8
+\rule{\linewidth}{0.2 mm} \\[0.4 cm]
+{ \huge \bfseries \thetitle}\\
+\rule{\linewidth}{0.2 mm} \\[1.5 cm]
+\begin{minipage}{0.4\textwidth}
+\begin{flushleft} \large
+%\emph{Submitted To:}\\
+% Name\\
+% Affiliation\\
+%contact info\\
+\end{flushleft}
+\end{minipage}~
+\begin{minipage}{0.4\textwidth}
+\begin{flushright} \large
+\emph{Submitted By :} \\
+Zachary Pfaff\\https://github.com/ZachPfaff
+\end{flushright}
+\end{minipage}\\[2 cm]
+% \includegraphics[scale = 0.5]{PICMathLogo.png}
+\end{titlepage}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%
+\tableofcontents
+\pagebreak
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%
+\renewcommand{\thesection}{\arabic{section}}
+\setlength{\parindent}{20pt}
+
+\maketitle
+\section{Introduction}
+\hspace{\parindent}The goal of the following lab is to learn about fourier series. This will be accomplished by approximating the following square wave shown in figure 1 using a fourier series. 
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width = 10 cm]{Square Wave.png}
+    \caption{Square Wave Function}
+    \label{Figure x:}
+\end{figure}
+
+\section{Equations}
+\hspace{\parindent}In order to evaluate the square wave, we will have to use the following fourier series equations to represent it. \par
+\[x(t) = \frac{1}{2}a_0+\sum_{n=1}^{\infty}a_kcos(w_0t)+b_ksin(kw_0t)\]
+\[a_k = \frac{2}{T}\int_{0}^{T}x(t)cos(kw_0t)dt\]
+\[b_k = \frac{2}{T}\int_{0}^{T}x(t)sin(kw_0t)dt\]
+\[w_0 = \frac{2\pi}{T}\]
+\hspace{\parindent}Already, we know that the square wave resembles an odd function since the graph is symmetrical through the origin. With an odd function, the coefficients for ak will all be zero which means there will only be sines in the fourier expansion. Next, the bk terms are analyzed for one period at an x(t) term equal to 1. Plugging this into the bk equation, the previous equations are derived into the following series equations.
+\[a_k = 0\]
+\[b_k = \frac{b}{k\pi}[1-cos(k\pi)]\]
+\[x(t) = \sum_{n=1}^{\infty}b_ksin(kw_0t)\]
+
+\section{Methodology}
+\hspace{\parindent}The first task of lab 8 is to evaluate a0, a1, b0, b1, b2, and b3 using python. To implement this as code, the equations ak and bk were given their own function definitions, and then printed to the console at each specified k value. The code for ak and bk, as well as their printed values code, is shown below in listing 1. The output for the following code can also be shown in figure 2.
+\begin{lstlisting}[language=Python, caption=Code for ak and bk values]
+steps = 0.01
+t = np.arange(0, 20 + steps, steps)
+T = 8
+w = (2*np.pi)/T
+ak = 0
+
+def ak(k):
+        y = 0
+        return y
+
+def bk(k):
+        y = (2/(k * np.pi)) * (1 - np.cos(k * np.pi))
+        return y
+
+print("ak(0): ", ak(0))
+print("ak(1): ", ak(1))
+print("bk(1): ", bk(1))
+print("bk(2): ", bk(2))
+print("bk(3): ", bk(3))
+\end{lstlisting}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width = 8 cm]{task 1 output.png}
+    \caption{Printed ak and bk values}
+    \label{Figure x:}
+\end{figure}
+\hspace{\parindent}The next task of lab is to evaluate the fourier series using the x(t) function derived previously in the equations section of this report. To implement x(t) into code, I had to put x(t) into a for loop that evaluates the series at a specified n value. The function definition can be shown below in listing 2.
+\begin{lstlisting}[language=Python, caption=Code for fourier series]
+def fourier(t, n):
+    y = 0
+    for i in np.arange(1, n + 1):
+        y = y + (2/(i * np.pi)) * (1 - np.cos(i * np.pi)) * (np.sin(i * w * t))       
+    return y
+\end{lstlisting}
+\hspace{\parindent}With the fourer series expansion implemented into python code, the square wave will be able to be evaluated at various n values. The more values of n that are used, the closer the approximation will be. That being said however, it will take a significant amount of time to process the expansion if the n is really high. The plots for n = [1, 3, 15, 50, 150, 1500] can be seen below in figures 3, 4, and 5.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width = 10 cm]{Fourier one.png}
+    \caption{Plots for N=1 and N=3}
+    \label{Figure x:}
+\end{figure}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width = 8 cm]{Fourier two.png}
+    \caption{Plots for N=15 and N=50}
+    \label{Figure x:}
+\end{figure}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width = 8 cm]{Fourier three.png}
+    \caption{Plots for N=150 and N=1500}
+    \label{Figure x:}
+\end{figure}
+\\\\\\
+\section{Questions}
+\hspace{\parindent}1. Is x(t) an even or an odd function? Explain why.
+
+x(t) is an odd function because the graph is symmetrical about the origin.
+
+2. Based on your results from Task 1, what do you expect the values of a2, a3, an to be? Why?
+
+The values of an are all expected to be zero because the it is an odd function and perfectly symmetrical about the x axis
+
+3. How does the approximation of the square wave change as the value of N increases? In what way does the Fourier series struggle to approximate the square wave?
+
+As N increases, the series expansion becomes more precise making it look closer to the square wave. That being said, no matter how high the value N is, it will never be able to perfectly replicate the square wave. It also appears that the first and last "wave" of each period is the highest whereas the waves in the middle balance out. The highest value of N first appears to perfectly resemble the square wave, however at closer inspection the first and last wave of each period is still visible.
+
+4. What is occurring mathematically in the Fourier series summation as the value of N increases?
+
+As the value of N increases, the amount of sine and cosine waves (or the frequency) increases and the peak values of each wave decrease.
+
+5. Leave any feedback on the clarity of lab tasks, expectations, and deliverables.
+
+I did not have any problems following lab procedure.
+\end{document}
