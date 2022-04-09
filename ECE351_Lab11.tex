@@ -1,0 +1,171 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% DOCUMENT PREAMBLE %%%
+\documentclass[12pt]{report}
+\usepackage[english]{babel}
+%\usepackage{natbib}
+\usepackage{url}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\graphicspath{{images/}}
+\usepackage{parskip}
+\usepackage{fancyhdr}
+\usepackage{vmargin}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codeblue}{rgb}{0,0,0.95}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\lstdefinestyle{mystyle}{
+backgroundcolor=\color{backcolour},
+commentstyle=\color{codegreen},
+keywordstyle=\color{codeblue},
+numberstyle=\tiny\color{codegray},
+stringstyle=\color{codegreen},
+basicstyle=\ttfamily\footnotesize,
+breakatwhitespace=false,
+breaklines=true,
+captionpos=b,
+keepspaces=true,
+numbers=left,
+numbersep=5pt,
+showspaces=false,
+showstringspaces=false,
+showtabs=false,
+tabsize=2
+}
+\lstset{style=mystyle}
+\setmarginsrb{3 cm}{2.5 cm}{3 cm}{2.5 cm}{1 cm}{1.5 cm}{1 cm}{1.5 cm}
+\title{Z - Transform Operations}
+% Title
+\author{Zachary Pfaff}
+% Author
+\date{April 12th 2022}
+\makeatletter
+\let\thetitle\@title
+\let\theauthor\@author
+\let\thedate\@date
+\makeatother
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\theauthor}
+\lhead{\thetitle}
+\cfoot{\thepage}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%
+\begin{titlepage}
+\centering
+\vspace*{0.5 cm}
+% \includegraphics[scale = 0.075]{bsulogo.png}\\[1.0 cm] % 
+\includegraphics[width = 5 cm]{University Logo.png}\\
+\begin{center}    \textsc{\Large   ECE 351}\\[2.0 cm]
+\end{center}% University Name
+\textsc{\Large Signals and Systems  }\\[0.5 cm] % Course 
+Lab 11
+\rule{\linewidth}{0.2 mm} \\[0.4 cm]
+{ \huge \bfseries \thetitle}\\
+\rule{\linewidth}{0.2 mm} \\[1.5 cm]
+\begin{minipage}{0.4\textwidth}
+\begin{flushleft} \large
+%\emph{Submitted To:}\\
+% Name\\
+% Affiliation\\
+%contact info\\
+\end{flushleft}
+\end{minipage}~
+\begin{minipage}{0.4\textwidth}
+\begin{flushright} \large
+\emph{Submitted By :} \\
+Zachary Pfaff\\https://github.com/ZachPfaff
+\end{flushright}
+\end{minipage}\\[2 cm]
+% \includegraphics[scale = 0.5]{PICMathLogo.png}
+\end{titlepage}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%
+\tableofcontents
+\pagebreak
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%
+\renewcommand{\thesection}{\arabic{section}}
+\setlength{\parindent}{20pt}
+
+\maketitle
+\section{Introduction}
+\hspace{\parindent}In ECE 350, we have been able to analyze discreet systems through the use of Z transforms. The goal of the following lab is to explore Z transform operations using python. Our analysis will pertain to the following causal function below. Note that y[k] is the input whereas x[k] is the output. \par
+\[y[k] = 2x[k] - 40x[k] + 10y[k-1] - 16y[k-2]\]
+
+\section{Equations}
+\hspace{\parindent}Our first task of the following lab is to find the Z transform of the causal function by hand, then find h[k] through partial fraction expansion. The following equations below step through the Z transform of our causal function.
+\[Y[Z] - 10z^{-1}Y[Z]+16z^2Y[Z] = 2X[Z]-40z^{-1}X[Z]\]
+\[\frac{Y(z)}{X(z)}=\frac{2-40z^{-1}}{1-10z^{-1}+16z^{-2}}\]
+\[H(z) = \frac{2(1-20z^{-1})}{(1-8z^{-1})(1-2z^{-1})}\]
+\[\frac{H(z)}{z} = \frac{2(z-20)}{(z-8)(z-2)}\]
+
+\hspace{\parindent}To evaluate h(k), we need to use partial fraction expansion, then, transform it back. The partial fraction expansion is shown below, along with the computed h(k).
+\[\frac{2(z-20)}{(z-8)(z-2)} = \frac{A}{z-8}+\frac{B}{z-2}\]
+\[A = -4\]
+\[B = 6\]
+\[\frac{H(z)}{z} = \frac{-4}{z-8}+\frac{6}{z-2}\]
+\[H(z) = \frac{4z}{z-8}+\frac{6z}{z-2}\]
+\[h(k) = -4(8^k)u[k]+6(2^k)u[k]\]
+
+\section{Methodology}
+\hspace{\parindent}With H(z) and h(k) evaluated, we are able to verify if our partial fraction expansion was successful by using scipy.signal.residuez() in python code. To do this, I established a numerator array and denominator array for the H(z) function. The numerator will hold the zeros of the function, while the denominator while hold the poles. Implementation of this is shown below in listing 1. The output to listing 1 is [6, -4] which verifies that our partial fraction expansion worked. \par
+\begin{lstlisting}[language=Python, caption=Partial Fraction Expansion of H(z)]
+num = [2, -40]
+den = [1, -10, 16]
+
+r1, s1, p1 = sig.residue(num, den)
+
+print(r1)
+\end{lstlisting}
+\hspace{\parindent}The next task of lab is to obtain the pole-zero plot for H(z). This is done by using the zplane() function, which was given to us in the lab handout so it will not be included in this report. To get the pole-zero plot, I place my num and den arrays into the zplane() function. This only took one line of code since the plot outputs occur in the zplane() function. Listing 2 below shows how I implemented this into python.
+\begin{lstlisting}[language=Python, caption=pole-zero plot for H(z) code]
+z, p, k = zplane(num, den)
+\end{lstlisting}
+\hspace{\parindent}The final task of lab is to plot the magnitude and phase response of H(z). This is done using the scipy.signal.freqz() command. The code below in listing 3 shows how this was implemented into python. 
+\begin{lstlisting}[language=Python, caption=Magnitude and Phase response code]
+w, m = sig.freqz(num, den, whole = True)
+
+w = w/np.pi
+
+plt.figure(figsize = (15 ,15))
+plt.subplot(3, 1, 1)
+plt.semilogx(w, 20*np.log10(np.abs(m)))
+plt.title("Mag1")
+plt.ylabel("x")
+plt.subplot(3, 1, 2)
+plt.semilogx(w, np.angle(m))
+plt.title("Phase1")
+plt.ylabel("x")
+\end{lstlisting}
+
+\section{Data}
+\hspace{\parindent}There were only two sets of plots for lab 11. The first plot, shown in figure 1, is the pole-zero plot for H(z) which shows where on the x axis the poles and zeros occur. This will help us determine if the system is stable. The second set of plots, shown in figure 2, are the magnitude and phase responses to H(z). These plots show us what comes out of the H(z) function.\\\\\\\\
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width = 13 cm]{Zeros-Poles.png}
+    \caption{Zeros and Poles of H(z) plotted}
+    \label{Figure x:}
+\end{figure}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width = 15 cm]{Phase.png}
+    \caption{Transfer function in units of Hz}
+    \label{Figure x:}
+\end{figure}
+\\\\\\\\\\\\\\\\\\\\
+\section{Questions}
+1. Looking at the plot generated in Task 4, is H(z) stable? Explain why or why not.
+\\\\
+When looking at the plot in task 4, it looks like the system is not stable because our poles are not in the right half of the graph. This is also apparent in our plots for task 5 since we can see the magnitude and phase increase very rapidly.
+\\\\
+2. Leave any feedback on the clarity of lab tasks, expectations, and deliverables.
+\\\\
+I did not run into any problems following lab expectations
+\end{document}
